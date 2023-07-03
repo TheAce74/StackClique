@@ -1,0 +1,143 @@
+@use "../abstracts" as *;
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+
+  & > div {
+    position: relative;
+    min-height: 100dvh;
+    background-color: hsl(0, 0%, 5%);
+    isolation: isolate;
+
+    video {
+      position: absolute;
+      min-height: 100dvh;
+      inset: 0;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    div {
+      padding: 1em;
+      color: hsl(0, 0%, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      align-items: left;
+      justify-content: center;
+      height: 100%;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 1em;
+    opacity: 0;
+    animation-name: fade;
+    animation-timing-function: linear;
+    animation-duration: 0.7s;
+    animation-fill-mode: forwards;
+
+    form {
+      width: 100%;
+
+      input,
+      .submit,
+      .iti {
+        display: block;
+        width: 80%;
+        margin-inline: auto;
+        margin-top: 1em;
+      }
+
+      .iti input {
+        width: 100%;
+      }
+
+      input {
+        padding-inline: 0.5em;
+        padding-block: 0.3em;
+        border-radius: 0.2em;
+        border: 1px solid hsl(0, 0%, 5%);
+      }
+
+      .submit {
+        padding-block: 0.5em;
+        background-color: hsl(0, 0%, 5%);
+        border: 1px solid hsl(0, 0%, 5%);
+        cursor: pointer;
+        border-radius: 0.2em;
+        color: hsl(0, 0%, 100%);
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: color 0.3s, background-color 0.3s;
+
+        &:is(:hover, :focus-visible) {
+          color: hsl(0, 0%, 5%);
+          background-color: hsl(0, 0%, 100%);
+        }
+      }
+    }
+  }
+
+  .switch {
+    border: none;
+    color: hsl(0, 0%, 5%);
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:is(:hover, :focus-visible) {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  @include max(medium) {
+    display: block;
+
+    & > div {
+      min-height: 0;
+      height: max-content;
+
+      video {
+        position: absolute;
+        min-height: 0;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      div {
+        min-height: 100%;
+      }
+    }
+
+    .content {
+      padding-block: 2em 3em;
+
+      form {
+        input,
+        .submit,
+        .iti {
+          width: 90%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

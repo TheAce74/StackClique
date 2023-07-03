@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import video from "./assets/video.mp4";
 import Swal from "sweetalert2";
 
+let ignore = false;
+
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const input1Ref = useRef(null);
   const input2Ref = useRef(null);
+  const input3Ref = useRef(null);
   const password1Ref = useRef(null);
   const password2Ref = useRef(null);
 
@@ -43,20 +46,55 @@ function App() {
       }).then(() => {
         input1Ref.current.value = "";
         input2Ref.current.value = "";
+        input3Ref.current.value = "";
       });
     }
   };
+
+  useEffect(() => {
+    if (!ignore) {
+      const input = document.querySelectorAll(".telephone");
+      input.forEach((item) => {
+        window.intlTelInput(item, {
+          utilsScript:
+            "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+          allowDropdown: true,
+          autoInsertDialCode: true,
+          autoPlaceholder: "polite",
+          customPlaceholder: null,
+          excludeCountries: [],
+          formatOnDisplay: true,
+          geoIpLookup: null,
+          hiddenInput: "",
+          initialCountry: "",
+          localizedCountries: null,
+          nationalMode: true,
+          onlyCountries: [],
+          placeholderNumberType: "MOBILE",
+          preferredCountries: ["us", "gb"],
+          separateDialCode: false,
+          showFlags: true,
+        });
+      });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <main>
       <div>
         <video src={video} loop autoPlay></video>
-        <h1>StackClique Commerce</h1>
-        <p>
-          Discover a world of endless possibilities at StackClique Commerce.
-          Shop, explore, and indulge in a seamless online shopping experience
-          like never before.
-        </p>
+        <div>
+          <h1>StackClique Commerce</h1>
+          <p>
+            Discover a world of endless possibilities at StackClique Commerce.
+            Shop, explore, and indulge in a seamless online shopping experience
+            like never before.
+          </p>
+        </div>
       </div>
       <section className="content">
         {isLogin ? (
@@ -80,36 +118,51 @@ function App() {
                 ref={input1Ref}
               />
               <input
-                type="password"
-                placeholder="Password"
+                type="tel"
+                placeholder="Phone Number"
+                className="telephone"
                 required
                 key="2"
                 ref={input2Ref}
               />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                key="3"
+                ref={input3Ref}
+              />
             </>
           ) : (
             <>
-              <input type="text" placeholder="First Name" required key="3" />
-              <input type="text" placeholder="Last Name" required key="4" />
+              <input type="text" placeholder="First Name" required key="4" />
+              <input type="text" placeholder="Last Name" required key="5" />
               <input
                 type="email"
                 placeholder="Email Address"
                 required
-                key="5"
+                key="6"
+              />
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                className="telephone"
+                required
+                key="7"
               />
               <input
                 type="password"
                 placeholder="Password"
                 ref={password1Ref}
                 required
-                key="6"
+                key="8"
               />
               <input
                 type="password"
-                placeholder="Retype Password"
+                placeholder="Confirm Password"
                 ref={password2Ref}
                 required
-                key="7"
+                key="9"
               />
             </>
           )}
@@ -117,11 +170,17 @@ function App() {
         </form>
         {isLogin ? (
           <p>
-            Are you new here? <button onClick={handleReg}>Signup</button>
+            Are you new here?{" "}
+            <button onClick={handleReg} className="switch">
+              Signup
+            </button>
           </p>
         ) : (
           <p>
-            Not your first time here? <button onClick={handleReg}>Login</button>
+            Not your first time here?{" "}
+            <button onClick={handleReg} className="switch">
+              Login
+            </button>
           </p>
         )}
       </section>

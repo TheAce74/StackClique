@@ -1,4 +1,13 @@
 //Basic typography styles for body text
+@use "../abstracts" as *;
+html {
+  font-size: 1.1rem;
+
+  @include max(medium) {
+    font-size: 1rem;
+  }
+}
+
 body {
   font-family: "IBM Plex Sans", sans-serif;
 }
