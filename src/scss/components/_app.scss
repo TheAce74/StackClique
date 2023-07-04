@@ -87,19 +87,6 @@ main {
     }
   }
 
-  .switch {
-    border: none;
-    color: hsl(0, 0%, 5%);
-    background-color: transparent;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:is(:hover, :focus-visible) {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-    }
-  }
-
   @include max(medium) {
     display: block;
 
